@@ -5,8 +5,8 @@ import classSchema from "../types/schemas/classSchema";
 import loginDTO from "../types/modelDTO/loginDTO";
 import mongoose from "mongoose";
 import userSchema from "../types/schemas/userSchema";
-import scoresSchema from '../types/schemas/scores';
-import IUpdateScore from "../types/modelDTO/updateScore";
+import scoresSchema from "../types/schemas/scores";
+import IScore from "../types/modelDTO/updateScore";
 
 export const createNewClassrom = async (
   name: string,
@@ -19,8 +19,6 @@ export const createNewClassrom = async (
   await newClass.save();
 };
 
-
-
 export const createNewTecher = async (
   userFromReq: teacherDTO
 ): Promise<IUser> => {
@@ -28,13 +26,13 @@ export const createNewTecher = async (
   if (!name || !email || !password || !className) {
     throw "must be name,mail,password,className into new theacher";
   }
-  
+
   const classExist = await classSchema.findOne({ name: className });
-  
-  if (classExist){
+
+  if (classExist) {
     throw `class ${className} is exist AND new teacher must a new classrom`;
   }
- 
+
   const hashedPassword = await bcrypt.hash(password, 10);
   const newTeacher = new userschema({
     name,
@@ -50,28 +48,28 @@ export const createNewTecher = async (
 
 export const findTeacher = async (teacher: loginDTO): Promise<IUser> => {
   try {
-    const user = await userschema.findOne({name: teacher.name});
-    if(!user) throw new Error(`invalid user name or password`)
-    const result =  await bcrypt.compare(teacher.password, user.password)
+    const user = await userschema.findOne({ name: teacher.name });
+    if (!user) throw new Error(`invalid user name or password`);
+    const result = await bcrypt.compare(teacher.password, user.password);
 
     return user;
   } catch (error) {
-   
-    throw error
+    throw error;
   }
-
 };
 
-
-export const updateScore = async (newScore: IUpdateScore) => {
-  const { score, idStudent,testName } = newScore;
+export const insertNewScore = async (newScore: IScore) => {
   try {
-    await userSchema.findOneAndUpdate(
+    const { score, testName, idStudent } = newScore;
+    if (!score || !testName || !idStudent) {
+      throw new Error("must be score, testId,idStofent,name to add new score");
+    }
+  const ifExistAndsucceeded =  await userSchema.findOneAndUpdate(
       { _id: idStudent },
-      { $push: { tests: { testName: testName, date:Date.now(), score } } }
-    )
-    return "score updated successfully"
+      { $push: { tests: { testName: testName, date: Date.now(), score } } }
+    );
+    if(!ifExistAndsucceeded) throw new Error("the student not exist")
   } catch (err) {
-    return err
+    throw  err;
   }
-}
+};

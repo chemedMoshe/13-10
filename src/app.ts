@@ -6,6 +6,7 @@ import authRouter from "./routers/authRouter";
 const cookieParser = require("cookie-parser");
 import  connectDB from "./config/db";
 import { studentRouter } from "./routers/studentRouter";
+import { verifyifTeacher } from "./middleware/verify";
 const { specs, swaggerUi } = require("../src/config/swagger");
 
 dotenv.config();
@@ -23,7 +24,7 @@ app.use(cookieParser());
 app.use("/api/teacher", teacherRouter);
 app.use('/api/login', authRouter)
 app.use('/api/student', studentRouter);
-app.use('api/updateScore',teacherRouter)
+app.use('/api/updateScore',verifyifTeacher,teacherRouter)
 // Error handling middleware
 app.use(errorHandler);
 

@@ -1,19 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import { IUser } from "../types/schemas/studentSchema";
+import { IUser } from "../types/schemas/userSchema";
 
 // Create a new teacher
 export const createTeacher = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<void> => {
-  try{
-  const newUser: IUser = req.body;
-  res.status(201).json({ message: "Teacher created successfully" });
+  try {
+    const newUser: IUser = req.body;
+    res.status(201).json({ message: "Teacher created successfully" });
+  } catch (err) {
+    res.status(400).json({ err: true, message: err });
   }
-  catch(err){
-res.status(400).json({err:true,message:err})
-  }
-
 };
 
 // Delete a post

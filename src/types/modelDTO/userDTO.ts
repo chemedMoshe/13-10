@@ -1,6 +1,6 @@
-export default interface ITeacher {
+export default interface IUser {
     name: string;
-    mail: string;
+    email: string;
     password: string;
     className: string;
 }

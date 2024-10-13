@@ -1,29 +1,22 @@
 import jwt from "jsonwebtoken";
+import userDTO from "../types/modelDTO/userDTO";
+import { getAllTeachers } from "./techarService";
+import mongoose from "mongoose";
 export default class AuthService {
   public static async login(
-    userFromReq: signUpDTO
+    userFromReq: userDTO
   ): Promise<{ err: boolean; status: number; data: { token: string } }> {
    
-    const { username, password, mail } = userFromReq;
-    if (!username || !password)
+    const { name, password } = userFromReq;
+    if (!name || !password)
       throw "must be userName and password into new user";
-
-    const usersObj: UserModel[] = await getAllitemsintoFille<UserModel>("Users");
-   
-    const userObjExsist: UserModel | undefined = usersObj.find(
-      (x) => x.mail === mail
-    );
-  //console.log(userExsist instanceof UserModel);
+    
+    const teacherObj:mongoose.Document= await getAllTeachers()
   
-  if (!userObjExsist) throw `userName ${userFromReq.username} is not Exist`;
-  const userUserModel:UserModel = new UserModel(userObjExsist.userName, userObjExsist.mail);
-  userUserModel.id = userObjExsist.id;
-  userUserModel.password = userObjExsist.password;
-    if (!await userUserModel.comparePassword(password))
-      throw `password is wrong`;
+  
 
     const payload: TokenPayloadDTO = {
-      id: userObjExsist.id,
+      name: teacherObj.name,
       username: userObjExsist.userName,
     };
     const token = jwt.sign(payload, process.env.SECRET! as string, {

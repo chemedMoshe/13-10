@@ -14,7 +14,7 @@ export const createTeacher = async (
     const newUser: IUser = await createNewTecher(req.body);
     res.status(201).json({ message: "Teacher created successfully", data: newUser });
   } catch (err) {
-    res.status(400).json({ err: true, message: err });
+    res.status(400).json({ err: true, message: `${err}` });
   }
 };
 

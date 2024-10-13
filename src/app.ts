@@ -2,8 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import teacherRouter from "./routers/teacherRoutes";
 import { errorHandler } from "./middleware/errorHandler";
-import connectDB from "./config/db";
+import authRouter from "./routers/authRouter";
 const cookieParser = require("cookie-parser");
+import  connectDB from "./config/db";
 const { specs, swaggerUi } = require("../src/config/swagger");
 
 dotenv.config();
@@ -15,11 +16,11 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Middleware
 app.use(express.json());
-//connectDB();
+connectDB();
 
 // Routes
 app.use("/api/teacher", teacherRouter);
-//app.use('/api/login', authRouter)
+app.use('/api/login', authRouter)
 
 // Error handling middleware
 app.use(errorHandler);

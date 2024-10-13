@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { IUser } from "../types/schemas/studentSchema";
 
-// Create a new theacher
+// Create a new teacher
 export const createTeacher = async (
   req: Request,
   res: Response,

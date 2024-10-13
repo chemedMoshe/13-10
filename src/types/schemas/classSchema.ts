@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IUser } from "./studentSchema";
+
 
 export interface IClass {
     name:string;

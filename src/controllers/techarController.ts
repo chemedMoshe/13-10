@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from "express";
-import Post, { IPost } from "../types/postModel";
-import User from "../types/userModel";
+import { IUser } from "../types/schemas/studentSchema";
 
-// Create a new post
-export const createPost = async (
+// Create a new theacher
+export const createTeacher = async (
   req: Request,
   res: Response,
-  next: NextFunction
-): Promise<void> => {};
+): Promise<void> => {
+  const newUser: IUser = req.body;
+  res.status(201).json({ message: "Teacher created successfully" });
+
+};
 
 // Delete a post
 export const deletePost = async (

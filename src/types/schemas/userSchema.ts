@@ -9,7 +9,7 @@ export interface IUser extends mongoose.Document{
     scores?:Array<{testName:string,date:Date,score:number}>;
 
 }
-const userSchema = new mongoose.Schema<IUser>({
+export const userSchema = new mongoose.Schema<IUser>({
     name: {
         type: String,
         required: [true,"Name is required"]

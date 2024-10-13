@@ -24,6 +24,8 @@ export const createNewTecher = async (userFromReq: teacherDTO): Promise<IUser> =
   return newteacher;
 };
 
+
+
 export const findTeacher = async (teacher: loginDTO): Promise<IUser> => {
   const nameExist = await userschema.find({
     name: teacher.name,

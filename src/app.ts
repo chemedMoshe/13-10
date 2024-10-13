@@ -6,20 +6,20 @@ import connectDB from "./config/db";
 const cookieParser = require("cookie-parser");
 const { specs, swaggerUi } = require("../src/config/swagger");
 
-const PORT = process.env.PORT || 3000;
-
 dotenv.config();
+const PORT = process.env.PORT|| 3000;
+
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Middleware
 app.use(express.json());
-connectDB();
+//connectDB();
 
 // Routes
 app.use("/api/teacher", teacherRouter);
-
+//app.use('/api/login', authRouter)
 
 // Error handling middleware
 app.use(errorHandler);

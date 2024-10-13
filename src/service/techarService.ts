@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import userSchema from "../types/schemas/userSchema";
 import scoresSchema from "../types/schemas/scores";
 import IScore from "../types/modelDTO/updateScore";
+import { log } from "console";
 
 export const createNewClassrom = async (
   name: string,
@@ -60,15 +61,19 @@ export const findTeacher = async (teacher: loginDTO): Promise<IUser> => {
 
 export const insertNewScore = async (newScore: IScore) => {
   try {
+    
     const { score, testName, idStudent } = newScore;
     if (!score || !testName || !idStudent) {
-      throw new Error("must be score, testId,idStofent,name to add new score");
+      throw new Error("must be score, score, testName, idStudent, to add new score");
     }
-  const ifExistAndsucceeded =  await userSchema.findOneAndUpdate(
+    const existStudent = await userSchema.findOne({_id:idStudent})
+     if(!existStudent) throw new Error("student not exist") 
+    
+      await userSchema.findOneAndUpdate(
       { _id: idStudent },
-      { $push: { tests: { testName: testName, date: Date.now(), score } } }
+      { $push: { scores: { testName: testName, date: new Date(Date.now()), score } } }
     );
-    if(!ifExistAndsucceeded) throw new Error("the student not exist")
+   
   } catch (err) {
     throw  err;
   }

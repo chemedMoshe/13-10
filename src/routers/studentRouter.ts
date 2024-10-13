@@ -3,4 +3,4 @@ import { createStudent } from "../controllers/studentcontroller";
 
 export const studentRouter: Router = Router();
 
-studentRouter.post("/",createStudent)
+studentRouter.post("/register",createStudent)

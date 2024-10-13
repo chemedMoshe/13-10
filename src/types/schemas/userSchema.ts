@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { scoresSchema } from "./scores";
 
 export interface IUser extends mongoose.Document{
     name: string;
@@ -31,10 +32,7 @@ export const userSchema = new mongoose.Schema<IUser>({
         type: Boolean,
         default: false
     },
-    scores: [{
-        testName: String,
-        date: Date,
-        score: Number}],
+    scores: [scoresSchema],
     
 });
 

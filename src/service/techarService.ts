@@ -4,6 +4,8 @@ import userschema, { IUser } from "../types/schemas/userSchema";
 import classSchema from "../types/schemas/classSchema";
 import loginDTO from "../types/modelDTO/loginDTO";
 import mongoose from "mongoose";
+import userSchema from "../types/schemas/userSchema";
+import scoresSchema from '../types/schemas/scores';
 
 export const createNewClassrom = async (
   name: string,
@@ -58,3 +60,17 @@ export const findTeacher = async (teacher: loginDTO): Promise<IUser> => {
   }
 
 };
+
+
+export const updateScore = async (newScore: scoresSchema) => {
+  const { score, idStudent,testName } = newScore;
+  try {
+    await userSchema.findOneAndUpdate(
+      { _id: idStudent },
+      { $push: { tests: { testName: testName, date:Date.now(), score } } }
+    )
+    return "score updated successfully"
+  } catch (err) {
+    return err
+  }
+}

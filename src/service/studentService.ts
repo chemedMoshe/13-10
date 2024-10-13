@@ -12,7 +12,7 @@ export const insertIntoClass = async (
   const classPerUserExist = await classSchema.findOne({
     name: nameStudent,
   });
-
+//
   if (!classPerUserExist) throw new Error("class not found");
   await classSchema.findOneAndUpdate(
     { name: nameStudent },

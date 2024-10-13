@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
+
 export default interface IUpdateScore {
-    idStudent: string;
+    idStudent: mongoose.Types.ObjectId | unknown;
     testName: string;
     score: number;
 }
